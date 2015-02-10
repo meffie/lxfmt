@@ -1,0 +1,5 @@
+TEXT  MACS DMSGPI DMSOM IXXOM OSMACRO OSPSI HCPGPI HCPPSI HCPOM1 OSVSAM         
+TEXT  MACS OSMACRO1                                                             
+PAT   AUXPAT   TX$  * LOCAL PATCHES                                             
+LCL   AUXLCL        * CMS AUX File and VVTLCL Level for Local Mods              
+TEXT  AUXVM         * CMS AUX FILE and VVTVM Level for PTF service              

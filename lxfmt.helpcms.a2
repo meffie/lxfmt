@@ -1,0 +1,148 @@
+ 
+ 
+ 
+ 
+Use the LXFMT command to format and/or partition a disk for use by Linux.
+ 
+ 
++----------+------------------------------------------------------------------+
+|          |                                                                  |
+| LXFMT    | vdev  < volser >  ( -B blksize -C filespec -F -K -M -N           |
+|          |                     -P1 start end -P2 start end -P3 start end    |
+|          |                     -S -TS -U -Y                                 |
+|          |                                                                  |
+|          |                                                                  |
+|          |                                                                  |
+|          |                                                                  |
+|          |                                                                  |
++----------+------------------------------------------------------------------+
+ 
+ 
+ 
+vdev
+   Specifies the virtual device number (address) of a disk to be formatted
+   for use by Linux.
+ 
+volser
+   Specifies  an  optional  volume serial to be used in the volume label.  The
+   default volume serial is 0Xnnnn, where nnnn is the virtual device number of
+   the disk.
+ 
+-B blksize
+   Specifies  the size of the blocks in bytes or K bytes to use for the
+   format.  Choices are 4096, 2048, 1024, 512, 4K, 2K, 1K.  The default is
+   4096(4K) bytes.
+ 
+-C filespec
+   Specifies the file name and optionally the file type and mode for a config
+   file containing the starting and ending tracks for up to 3 partitions to
+   create on an ECKD disk.  The file type for the file defaults to LXCONFIG.
+   The format of the file is the same as the format for the FDASD Linux
+   command.  The words FIRST and LAST can be be used for the first and last
+   tracks on the disk.  The following sample file would create 3 partitions.
+ 
+   first,1499
+   1500,2999
+   3000,last
+ 
+-F
+   Format all tracks or blocks on the disk.  If the -F option is not specified
+   only tracks 0 and 1 on ECKD and blocks 0-3 on FBA will be altered.
+ 
+-K
+   Keep existing volume serial.
+ 
+-M
+   Show periodic format progress messages.  A message will be issued after each
+   250 cylinders or 360,000 FBA blocks (45,000 4K blocks).  If -M is not
+   specified you can determine the format progess by entering #CP EXT 41 on
+   the CMS console at any time during the format for ECKD or zeroing for FBA.
+ 
+-N
+   Do not create partitions.
+ 
+-P1 start end
+   Provides the starting and ending tracks for partition 1 for ECKD disk.
+ 
+-P2 start end
+   Provides the starting and ending tracks for partition 2 for ECKD disk.
+ 
+-P3 start end
+   Provides the starting and ending tracks for partition 3 for ECKD disk.
+ 
+-S
+   Shows a map of the current disk allocation
+ 
+-TS
+   Creates a single swap type partition on the disk.
+ 
+-U
+   Recreate label and VTOC tracks using existing partition sizes.
+ 
+-Y
+   Format or create VTOC immediately without promting for confirmation.
+ 
+ 
+Usage Notes:
+ 
+ 
+1. If you do not specify the -F option for an ECKD disk that has never been
+   formatted you will not be able to write the label and VTOC with LXFMT.  If
+   you specify the -F option for an FBA disk it will zero all blocks
+   on the disk.
+ 
+2. If you do not specify the -F option only tracks 0 and 1 on ECKD and blocks
+   0 to 3 on FBA are altered.  No Linux data above these areas will be touched.
+ 
+3. ECKD disks are formatted in CDL format and a z/OS format VTOC.  FBA disks
+   are formatted in CDL format and a DOS/VSE VTOC.
+ 
+4. After formatting an ECKD or FBA disk with LXFMT it can be accessed as
+   CMS mode letter.  The CMS LISTDS command with the FORMAT or EXTENT options
+   can then be used to display the VTOC information.
+ 
+5. If you run LXFMT against a disk that is accessed by CMS you must re-access
+   the disk to see the changes with LISTDS.
+ 
+6. Partitions are validated to start above track 1 and be within the size of
+   the disk.  They are also checked for overlaps. Gaps between partitions are
+   allowed and not checked but are displayed in the disk map.
+ 
+7. When you run LXFMT against an ECKD disk that is formatted LXFMT will read a
+   count field from track 2 and the last disk track to verify the format.  If
+   an I/O error occurs reading either count field LXFMT will exit with an
+   error message.  If the block size in the two count fields is different LXFMT
+   will exit with an error message.  It the block size from the count fields
+   does not match the block size specified on the LXFMT command you will be
+   prompted to select to use the disk block size or quit.  LXFMT will not allow
+   creation of a partition that does not match the disk block size.
+ 
+8. LXFMT does not currently support deleting a partition or creating a new
+   partition in an existing VTOC.  You must always specify all partitions to
+   be defined in the VTOC.  They must also be specified in partition order 1-3.
+   LXFMT also does not currently support partitions with different block sizes.
+ 
+9. For support or to report problems with LXFMT contact:
+   Rick Bourgeois
+   rick@vsoftsys.com
+   Virtual Software Systems, Inc.
+   www.vsoftsys.com
+ 
+ 
+Normal messages:
+ 
+ 
+This is a request to verify the device to be formatted.  If the  device  number
+is correct, enter YES or 1; if not, enter NO or 0.
+ 
+  Format disk on vdev(volser)?  Enter YES(1) or NO(0)
+ 
+This message is issued when formatting begins.
+ 
+  Formatting vdev(volser)
+ 
+This message is issued periodicly if requested, when formatting is complete
+or whenever a #CP EXT 41 is entered.
+ 
+  nnn blocks formatted on vdev(volser) nnn% complete
+ 

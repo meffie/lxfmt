@@ -1,0 +1,46 @@
+LXFMT README                                                                    
+                                                                                
+This package contains a CMS utility to format and/or partition FBA disks        
+for Linux use.                                                                  
+                                                                                
+For ECKD disks the label and VTOC tracks are in OS format and are the           
+same as created by the DASDFMT Linux command.  The partitioning                 
+information in the VTOC is the same as the information created by the           
+FDASD Linux command.                                                            
+                                                                                
+For FBA disks the label and VTOC blocks are in DOS/VSE format.  Both            
+the ECKD and FBA disks can be accessed as a CMS file mode and the VTOC          
+information can be listed using the CMS LISTDS command using the (EXTENT        
+or (FORMAT options.                                                             
+                                                                                
+The files included in this VMARC file are:                                      
+                                                                                
+LXFMT ASSEMBLE  - The assemble file for the formatter                           
+LXFMT TEXT      - The text output from an HLASM assembly                        
+LXFMT MODULE    - The module file created from the above text file              
+LXFMT HELPCMS   - LXFMT CMS help file                                           
+LXASM EXEC      - An assembly exec that uses VMFHLASM to assemble LXFMT         
+LNXVM CNTRL     - An assembly control file for the assembly                     
+LXFMT README    - This document                                                 
+LXVMARC EXEC    - Exec to build the LXFMT VMARC file                            
+LXFMT1 LXCONFIG - configuration file to define partitions for ECKD disks        
+                                                                                
+The LXFMT assemble file is in CMS packed format.  VMFHLASM will                 
+automatically unpack the source for assembly.                                   
+                                                                                
+See the LXFMT HELPCMS file for the command format.                              
+                                                                                
+Any comments, sugestions or questions about LXFMT should be sent to             
+    Rick Bourgeois - rick@vsoftsys.com                                          
+                                                                                
+    Virtual Software Systems, Inc.                                              
+    7715 Browns Bridge Rd                                                       
+    Gainesville, GA  30506                                                      
+    770-781-3200                                                                
+    www.vsoftsys.com                                                            
+                                                                                
+License:                                                                        
+     This software is available at no charge under the terms                    
+     of the GNU General Public License version 3 (GPLv3) as                     
+     available from the OSI(Open Software Initiative) website.                  
+                                                                                

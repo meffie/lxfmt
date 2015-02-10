@@ -1,0 +1,22 @@
+/* Assemble exec for Linux utilities                           */
+ 
+address command
+ 
+Mod.1 = 'LXFMT'
+Mod.2 = 'LXMSG'
+Mod.3 = 'LXFSE'
+Mod.0 = 3
+ 
+do I_Mod = 1 to Mod.0
+   'EXEC VMFHLASM' Mod.I_Mod 'LNXVM'
+   if (Rc <> 0) then
+      leave
+end
+ 
+if (Rc = 0) then
+do
+   'LOAD LXFMT LXFSE LXMSG (CLEAR FULLMAP RLDSAVE'
+   'GENMOD'
+end
+ 
+exit Rc
